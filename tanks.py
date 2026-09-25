@@ -36,30 +36,31 @@ def theGame(tankPositions):
     tanksGrid = [[" ", "0", "1", "2", "3", "4", "5", "6", "7"], ["0", "-", "-", "-", "-", "-", "-", "-", "-"], ["1", "-", "-", "-", "-", "-", "-", "-", "-"], ["2", "-", "-", "-", "-", "-", "-", "-", "-"], ["3", "-", "-", "-", "-", "-", "-", "-", "-"], ["4", "-", "-", "-", "-", "-", "-", "-", "-"], ["5", "-", "-", "-", "-", "-", "-", "-", "-"], ["6", "-", "-", "-", "-", "-", "-", "-", "-"], ["7", "-", "-", "-", "-", "-", "-", "-", "-"]]
     index = 1
     tanks = 10
-    while (tanks != 0) and (index < 20):
-        for item in range(index, 21):
+    while (tanks != 0) and (index <= 30):
+        for item in range(index, 31):
             if tanks == 0:
                 break
             for row in tanksGrid:
                 print(" ".join(row))
-            print("\nIt is turn", str(index) + "/20")
+            print("\nIt is turn", str(index) + "/30")
             userChoice = getInput()
             found = False
             if tanksGrid[int(userChoice[0]) + 1][int(userChoice[1]) + 1] != "-":
-                print("You have already guessed" + " (" + userChoice[0] + "," + userChoice[1] + "). Try again\n")
+                print("\n\033[1mYou have already guessed" + " (" + userChoice[0] + "," + userChoice[1] + "). Try again\n\033[0m")
             else:
                 found = False
                 for item in tankPositions:
                     if userChoice == item:
                         tanks -= 1
-                        print("\nHIT\n" + str(tanks), "TANKS REMAINING\n")
+                        print("\n\033[1mHIT\033[0m\n" + str(tanks), "\033[1mTANKS REMAINING\033[0m\n")
                         tanksGrid[int(userChoice[0]) + 1][int(userChoice[1]) + 1] = "T"
                         found = True
                         index += 1
                 if found == False:
-                    print("\nMISS\n" + str(tanks), "TANKS REMAINING\n")
+                    print("\n\033[1mMISS\033[0m\n" + str(tanks), "\033[1mTANKS REMAINING\033[0m\n")
                     tanksGrid[int(userChoice[0]) + 1][int(userChoice[1]) + 1] = "X"
                     index += 1
+            print("\n" + "-" * 30 + "\n")
     return tanks, index
 
 def output(tanks, index):
