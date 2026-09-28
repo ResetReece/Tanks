@@ -1,5 +1,10 @@
 import random
 
+def rules():
+    print("In this game you must guess the position of 10 tanks on a 8x8 grid \nWhen playing you will be prompted to enter a value for the column and then prompted for a value for the row. You must NOT enter both in one input \nA - means the space is open, a X means you missed & a T means you found a tank \nYou have 30 turns\n")
+    input("Press enter when ready to continue\n")
+
+
 def getInput():
     correct = False
     while correct == False:
@@ -63,15 +68,56 @@ def theGame(tankPositions):
             print("\n" + "-" * 30 + "\n")
     return tanks, index
 
-def output(tanks, index):
+def output(tanks, index, wins, gamesPlayed):
+    gamesPlayed += 1
     if tanks == 0:
         print("You won!\nYou won in", str(index), "turns")
+        wins += 1
+        print(f"You have won {wins} out of {gamesPlayed} games played")
     else:
         print("You lost!\nYou where", str(tanks), "tanks away from winning")
+        print(f"You have won {wins} out of {gamesPlayed} games played")
+    return wins, gamesPlayed
 
 def main():
-    tankPositions = getPositions()
-    tanks, index = theGame(tankPositions)
-    output(tanks, index)
+    wins = 0
+    gamesPlayed = 0
+    running = True
+    while running == True:
+        while True:
+            print("Welcome to tanks")
+            choice = input("Do you need to see the rules (y/n)?\n")
+            try:
+                choice.upper()
+            except:
+                print("Not a valid option, try again\n")
+            else:
+                choice = choice.upper()
+                if choice == "Y":
+                    rules()
+                    break
+                elif choice == "N":
+                    break
+                else:
+                    print("Not a valid option, try again\n")
+        tankPositions = getPositions()
+        tanks, index = theGame(tankPositions)
+        wins, gamesPlayed = output(tanks, index, wins, gamesPlayed)
+        while True:
+            choice = input("Do you want to continue playing (y/n)?\n")
+            try:
+                choice.upper()
+            except:
+                print("Not a valid option, try again\n")
+            else:
+                choice = choice.upper()
+                if choice == "Y":
+                    break
+                elif choice == "N":
+                    print("Thanks for playing")
+                    running = False
+                    break
+                else:
+                    print("Not a valid option, try again\n")
 
 main()
