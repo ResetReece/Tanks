@@ -83,23 +83,23 @@ def main():
     wins = 0
     gamesPlayed = 0
     running = True
-    while running == True:
-        while True:
-            print("Welcome to tanks")
-            choice = input("Do you need to see the rules (y/n)?\n")
-            try:
-                choice.upper()
-            except:
-                print("Not a valid option, try again\n")
+    while True:
+        print("Welcome to tanks")
+        choice = input("Do you need to see the rules (y/n)?\n")
+        try:
+            choice.upper()
+        except:
+            print("Not a valid option, try again\n")
+        else:
+            choice = choice.upper()
+            if choice == "Y":
+                rules()
+                break
+            elif choice == "N":
+                break
             else:
-                choice = choice.upper()
-                if choice == "Y":
-                    rules()
-                    break
-                elif choice == "N":
-                    break
-                else:
-                    print("Not a valid option, try again\n")
+                print("Not a valid option, try again\n")
+    while running == True:
         tankPositions = getPositions()
         tanks, index = theGame(tankPositions)
         wins, gamesPlayed = output(tanks, index, wins, gamesPlayed)
