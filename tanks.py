@@ -51,7 +51,7 @@ def theGame(tankPositions):
             userChoice = getInput()
             found = False
             if tanksGrid[int(userChoice[0]) + 1][int(userChoice[1]) + 1] != "-":
-                print("\n\033[1mYou have already guessed" + " (" + userChoice[0] + "," + userChoice[1] + "). Try again\n\033[0m")
+                print("\n\033[1mYou have already guessed" + " (" + userChoice[1] + "," + userChoice[0] + "). Try again\n\033[0m")
             else:
                 found = False
                 for item in tankPositions:
