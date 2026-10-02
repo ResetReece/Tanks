@@ -1,5 +1,10 @@
 import random
 
+def rules():
+    print("In this game you must guess the position of 10 tanks on a 8x8 grid \nWhen playing you will be prompted to enter a value for the column and then prompted for a value for the row. You must NOT enter both in one input \nA - means the space is open, a X means you missed & a T means you found a tank \nYou have 30 turns\n")
+    input("Press enter when ready to continue\n")
+
+
 def getInput():
     correct = False
     while correct == False:
@@ -46,7 +51,7 @@ def theGame(tankPositions):
             userChoice = getInput()
             found = False
             if tanksGrid[int(userChoice[0]) + 1][int(userChoice[1]) + 1] != "-":
-                print("\n\033[1mYou have already guessed" + " (" + userChoice[0] + "," + userChoice[1] + "). Try again\n\033[0m")
+                print("\n\033[1mYou have already guessed" + " (" + userChoice[1] + "," + userChoice[0] + "). Try again\n\033[0m")
             else:
                 found = False
                 for item in tankPositions:
@@ -72,36 +77,56 @@ def theGame(tankPositions):
             print(" ".join(row))
     return tanks, index
 
-def output(tanks, index, games, wins):
+def output(tanks, index, wins, gamesPlayed):
+    gamesPlayed += 1
     if tanks == 0:
-        print("\n" + "-" * 30 + "\n")
-        print("\nYou won!\nYou won in", str(index), "turns")
-        print(f"You have won {wins} out of {games} games")
+        print("You won!\nYou won in", str(index), "turns")
         wins += 1
-        games += 1
+        print(f"You have won {wins} out of {gamesPlayed} games played")
     else:
-        print("\n" + "-" * 30 + "\n")
-        print("\nYou lost!\nYou where", str(tanks), "tanks away from winning")
-        print(f"You have won {wins} out of {games} games")
-        games += 1
-    return games, wins
+        print("You lost!\nYou where", str(tanks), "tanks away from winning")
+        print(f"You have won {wins} out of {gamesPlayed} games played")
+    return wins, gamesPlayed
 
 def main():
-    running = True
-    games = 1
     wins = 0
-    while running:
-        tankPositions = getPositions()
-        tanks, index = theGame(tankPositions)
-        games, wins = output(tanks, index, games, wins)
-        while True:
-            choice = input("\nWould you like to play again? (Y/N):\n")
-            if choice.upper() == "Y":
+    gamesPlayed = 0
+    running = True
+    while True:
+        print("Welcome to tanks")
+        choice = input("Do you need to see the rules (y/n)?\n")
+        try:
+            choice.upper()
+        except:
+            print("Not a valid option, try again\n")
+        else:
+            choice = choice.upper()
+            if choice == "Y":
+                rules()
                 break
-            elif choice.upper() == "N":
-                running = False
+            elif choice == "N":
                 break
             else:
-                print("Invalid input, try again")
+                print("Not a valid option, try again\n")
+    while running == True:
+        tankPositions = getPositions()
+        tanks, index = theGame(tankPositions)
+        wins, gamesPlayed = output(tanks, index, wins, gamesPlayed)
+        while True:
+            choice = input("Do you want to continue playing (y/n)?\n")
+            try:
+                choice.upper()
+            except:
+                print("Not a valid option, try again\n")
+            else:
+                choice = choice.upper()
+                if choice == "Y":
+                    break
+                elif choice == "N":
+                    print("Thanks for playing")
+                    running = False
+                    break
+                else:
+                    print("Not a valid option, try again\n")
 
 main()
